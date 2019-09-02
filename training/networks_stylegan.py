@@ -465,7 +465,7 @@ def mask(x, pixelwise=True, use_placeholder=True):
     if use_placeholder=True:
         if pixelwise:
             p = tf.placeholder_with_default(tf.constant(np.ones(shape=[1]+x.shape.as_list()[1:], dtype=np.float32)), 
-                                            shape=x.shape, name='MaskParams')
+                                            shape=[1]+x.shape.as_list()[1:], name='MaskParams')
         else:
             p = tf.placeholder_with_default(tf.constant(np.ones(shape=[1,x.shape.as_list()[1]], dtype=np.float32)), 
                                             shape=x.shape[0:2], name='MaskParams')
@@ -475,7 +475,7 @@ def mask(x, pixelwise=True, use_placeholder=True):
                     shape=[1]+x.shape.as_list()[1:],
                     dtype=np.float32,
                     initializer=tf.ones_initializer)
-    u = tf.random.uniform(tf.shape(p),0,1)
+    u = tf.random.uniform(tf.shape(x),0,1)
     z = tf.sigmoid(1/0.1*(tf.log(p+1e-7) - tf.log(1-p+1e-7) + tf.log(u+1e-7) - tf.log(1-u+1e-7)),
                 name='MaskSamples')
     masked_x = tf.multiply(x, z, name='MaskedOutput')

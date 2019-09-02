@@ -284,8 +284,8 @@ def G_mask_mb(
                             #  shape=x.shape.as_list()[1:],
                             #  initializer=tf.constant_initializer(np.ones(shape=x.shape.as_list()[1:])))
         p = tf.placeholder_with_default(tf.constant(np.ones(shape=[1]+x.shape.as_list()[1:], dtype=np.float32)), 
-                                        shape=x.shape, name='MaskParams')
-        u = tf.random.uniform(tf.shape(p),0,1)
+                                        shape=[1]+x.shape.as_list()[1:], name='MaskParams')
+        u = tf.random.uniform(tf.shape(x),0,1)
         z = tf.sigmoid(1/0.1*(tf.log(p+1e-7) - tf.log(1-p+1e-7) + tf.log(u+1e-7) - tf.log(1-u+1e-7)),
                     name='MaskSamples')
         masked_x = tf.multiply(x, z, name='MaskedOutput')
