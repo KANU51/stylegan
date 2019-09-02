@@ -462,7 +462,7 @@ def G_style_masked(
     return tf.identity(images_out, name='images_out')
 
 def mask(x, pixelwise=True, use_placeholder=True):
-    if use_placeholder=True:
+    if use_placeholder==True:
         if pixelwise:
             p = tf.placeholder_with_default(tf.constant(np.ones(shape=[1]+x.shape.as_list()[1:], dtype=np.float32)), 
                                             shape=[1]+x.shape.as_list()[1:], name='MaskParams')
